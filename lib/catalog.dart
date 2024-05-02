@@ -113,7 +113,7 @@ class Catalog extends StatelessWidget {
           decoration: BoxDecoration(
             color: boxColor,
           ),
-          height: 82,
+          height: 140,
         ),
       ),
     );

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'catalog.dart'; // Import the catalog.dart file
 import 'description.dart'; // Import the catalog.dart file
+import 'hotel/hotel.dart'; // Import the catalog.dart file
+import 'hotel/hotelRegion.dart'; // Import the catalog.dart file
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +32,9 @@ class MyApp extends StatelessWidget {
             title: 'Historical Places'), // Update route name
         '/River': (context) =>
             const DescriptionPage(title: 'River'), // Update route name
+        '/hotelRegion': (context) => const HotelRegionPage(), // Add this line
+        '/hotels': (context) => HotelPage(
+            region: ModalRoute.of(context)?.settings.arguments as String),
       },
     );
   }
@@ -90,19 +95,19 @@ class MainScreen extends StatelessWidget {
             ListTile(
               title: const Text('Hotels'),
               onTap: () {
-// Handle hotel button tap
-              },
-            ),
-            ListTile(
-              title: const Text('Restaurants'),
-              onTap: () {
-// Handle restaurant button tap
+                Navigator.pushNamed(context, '/hotelRegion');
               },
             ),
             ListTile(
               title: const Text('Guides'),
               onTap: () {
 // Handle guide button tap
+              },
+            ),
+            ListTile(
+              title: const Text('Restaurants'),
+              onTap: () {
+// Handle hotel button tap
               },
             ),
           ],
