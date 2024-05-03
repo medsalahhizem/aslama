@@ -39,8 +39,8 @@ class HotelPage extends StatelessWidget {
           imageAsset: 'images/hotels/Sentido.jpg',
         ),
         Hotel(
-          name: 'Hotel El Mouradi Cap Serrat',
-          location: 'Bizerte',
+          name: 'Hotel El Mouradi',
+          location: 'Mahdia',
           rating: 4.0,
           imageAsset: 'images/hotels/Mouradi.jpg',
         ),
@@ -59,14 +59,14 @@ class HotelPage extends StatelessWidget {
     } else if (region == 'North') {
       return [
         Hotel(
-          name: 'Hotel El Mouradi Cap Serrat',
+          name: 'Hotel El Mouradi ',
           location: 'Bizerte',
           rating: 4.0,
           imageAsset: 'images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
       ];
-    } else if (region == 'West') {
+    } else if (region == 'interior') {
       return [
         Hotel(
           name: 'Hotel El Mouradi Cap Serrat',
