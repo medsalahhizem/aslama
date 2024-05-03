@@ -27,32 +27,32 @@ class RestaurantPage extends StatelessWidget {
     if (type == 'Modern') {
       return [
         Restaurant(
-          name: 'Hotel Hasdrubal Thalassa & Spa',
+          name: 'L’aromate Restaurant - Pizzeria',
           location: 'Sousse',
-          rating: 4.5,
-          imageAsset: 'images/hotels/thalasso.jpg',
+          rating: 3.8,
+          imageAsset: 'images/restaurants/aromate.jpg',
         ),
         Restaurant(
-          name: 'Sentido Phenicia',
-          location: 'Hammamet',
+          name: 'LE CHANDELIER - CANDLE HOUSE',
+          location: 'Monastir',
           rating: 4.2,
-          imageAsset: 'images/hotels/Sentido.jpg',
+          imageAsset: 'images/restaurants/chandelier.jpg',
         ),
         Restaurant(
-          name: 'Hotel El Mouradi Cap Serrat',
-          location: 'Bizerte',
+          name: 'Le comptoire du Tunis',
+          location: 'Tunis',
           rating: 4.0,
-          imageAsset: 'images/hotels/Mouradi.jpg',
+          imageAsset: 'images/restaurants/lecomptoire.jpeg',
         ),
         // Add more hotels as needed
       ];
     } else if (type == 'Traditional') {
       return [
         Restaurant(
-          name: 'Hotel El Mouradi Cap Serrat',
-          location: 'Bizerte',
+          name: 'Dar Chraka',
+          location: 'Monastir',
           rating: 4.0,
-          imageAsset: 'images/hotels/Mouradi.jpg',
+          imageAsset: 'images/restaurants/chraka.jpg',
         ),
         // Add more hotels as needed
       ];
