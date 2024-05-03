@@ -46,6 +46,36 @@ class HotelPage extends StatelessWidget {
         ),
         // Add more hotels as needed
       ];
+    } else if (region == 'South') {
+      return [
+        Hotel(
+          name: 'Hotel El Mouradi Cap Serrat',
+          location: 'Bizerte',
+          rating: 4.0,
+          imageAsset: 'images/hotels/Mouradi.jpg',
+        ),
+        // Add more hotels as needed
+      ];
+    } else if (region == 'North') {
+      return [
+        Hotel(
+          name: 'Hotel El Mouradi Cap Serrat',
+          location: 'Bizerte',
+          rating: 4.0,
+          imageAsset: 'images/hotels/Mouradi.jpg',
+        ),
+        // Add more hotels as needed
+      ];
+    } else if (region == 'West') {
+      return [
+        Hotel(
+          name: 'Hotel El Mouradi Cap Serrat',
+          location: 'Bizerte',
+          rating: 4.0,
+          imageAsset: 'images/hotels/Mouradi.jpg',
+        ),
+        // Add more hotels as needed
+      ];
     } else {
       return []; // Return an empty list for other regions
     }

@@ -48,6 +48,7 @@ class DescriptionPage extends StatelessWidget {
         Image.asset(
           'images/beach.jpg',
           height: 200,
+          width: 500,
           fit: BoxFit.cover,
         ),
         const SizedBox(height: 16),
