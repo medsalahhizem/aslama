@@ -121,7 +121,41 @@ Widget _buildCuisineDescription() {
   }
 
   Widget _buildDesertDescription() {
-    // Implement desert description
+     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        'chenenni',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      const SizedBox(height: 16),
+      Image.asset(
+        'images/catalog/chenini.jpg',
+        height: 200,
+        fit: BoxFit.cover,
+      ),
+      const SizedBox(height: 16),
+      const Text(
+        'Journey back in time at Chenini, a ruined Berber village perched on a Tunisian hilltop. ',
+        style: TextStyle(fontSize: 16),
+      ),
+      const SizedBox(height: 8),
+      const Text(
+        "Explore a maze of troglodyte dwellings, where ancient granaries and a striking white mosque stand watch over the desert landscape.",
+        style: TextStyle(fontSize: 16),
+      ),
+      const SizedBox(height: 8),
+      const Text(
+        ' Chenini is a unique stop on Tunisia s ksar trail, offering a glimpse into a bygone era and the traditional Berber way of life.  Don t miss this chance to wander through history!',
+        style: TextStyle(fontSize: 16),
+      ),
+      // Add more content for cuisine
+    ],
+ );
+    
     return Column();
   }
 
