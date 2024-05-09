@@ -1,27 +1,45 @@
 import 'package:aslama/restaurant/restaurantType.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'catalog.dart'; // Import the catalog.dart file
-import 'description.dart'; // Import the catalog.dart file
-import 'hotel/hotel.dart'; // Import the catalog.dart file
+import 'catalog.dart';
+import 'LoginPage.dart';
+import 'SignUpPage.dart';
+import 'description.dart';
+import 'hotel/hotel.dart';
 import 'hotel/hotelRegion.dart';
-import 'restaurant/restaurant.dart'; // Import the catalog.dart file
-import 'restaurant/restaurantType.dart'; // Import the catalog.dart file
+import 'restaurant/restaurant.dart';
+import 'restaurant/restaurantType.dart';
+import 'firebase_options.dart'; // Import the firebase_options.dart file
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(useMaterial3: true),
-      initialRoute: '/', // Set the initial route
+      initialRoute: '/',
       routes: {
-        '/': (context) => const MainScreen(),
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignUpPage(),
+        '/': (context) => StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  // User is signed in
+                  return MainScreen();
+                } else {
+                  // User is not signed in
+                  return LoginPage();
+                }
+              },
+            ),
         '/beach': (context) => const DescriptionPage(title: 'Beach'),
         '/cuisine': (context) => const DescriptionPage(title: 'Cuisine'),
         '/Hiking': (context) =>

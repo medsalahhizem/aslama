@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "769471049720",
+    "project_id": "aslama-143f1",
+    "storage_bucket": "aslama-143f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769471049720:android:a53c3e913905f85a1df00d",
+        "android_client_info": {
+          "package_name": "com.example.aslama"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVq-3CC8TlDE0LPske98uhju8ZvHGqP9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

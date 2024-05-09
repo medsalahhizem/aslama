@@ -31,18 +31,21 @@ class HotelPage extends StatelessWidget {
           location: 'Sousse',
           rating: 4.5,
           imageAsset: 'images/hotels/thalasso.jpg',
+          price: 'DT 150', // Example price
         ),
         Hotel(
           name: 'Sentido Phenicia',
           location: 'Hammamet',
           rating: 4.2,
           imageAsset: 'images/hotels/Sentido.jpg',
+          price: 'DT 120', // Example price
         ),
         Hotel(
           name: 'Hotel El Mouradi',
           location: 'Mahdia',
           rating: 4.0,
           imageAsset: 'images/hotels/Mouradi.jpg',
+          price: 'DT 100', // Example price
         ),
         // Add more hotels as needed
       ];
@@ -53,6 +56,7 @@ class HotelPage extends StatelessWidget {
           location: 'Bizerte',
           rating: 4.0,
           imageAsset: 'images/hotels/Mouradi.jpg',
+          price: 'DT 90', // Example price
         ),
         // Add more hotels as needed
       ];
@@ -63,6 +67,7 @@ class HotelPage extends StatelessWidget {
           location: 'Bizerte',
           rating: 4.0,
           imageAsset: 'images/hotels/Mouradi.jpg',
+          price: 'DT 80', // Example price
         ),
         // Add more hotels as needed
       ];
@@ -73,6 +78,7 @@ class HotelPage extends StatelessWidget {
           location: 'Bizerte',
           rating: 4.0,
           imageAsset: 'images/hotels/Mouradi.jpg',
+          price: 'DT 70', // Example price
         ),
         // Add more hotels as needed
       ];
@@ -87,12 +93,14 @@ class Hotel {
   final String location;
   final double rating;
   final String imageAsset;
+  final String price; // Added price field
 
   Hotel({
     required this.name,
     required this.location,
     required this.rating,
     required this.imageAsset,
+    required this.price, // Initialize price field
   });
 }
 
@@ -141,14 +149,26 @@ class HotelListTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 8.0),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.star,
-                        color: Colors.amber[600],
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star,
+                            color: Colors.amber[600],
+                          ),
+                          const SizedBox(width: 4.0),
+                          Text(
+                            hotel.rating.toString(),
+                            style: const TextStyle(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 4.0),
                       Text(
-                        hotel.rating.toString(),
+                        hotel.price,
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
