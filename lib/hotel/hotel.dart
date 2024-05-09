@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
+import 'package:cloud_firestore/cloud_firestore.dart'; // Import FirebaseFirestore
 
 class HotelPage extends StatelessWidget {
   final String region;
@@ -176,9 +178,223 @@ class HotelListTile extends StatelessWidget {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 8.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) => BookingModal(hotel: hotel),
+                      );
+                    },
+                    child: const Text('Book'),
+                  ),
                 ],
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class BookingModal extends StatefulWidget {
+  final Hotel hotel;
+
+  const BookingModal({Key? key, required this.hotel}) : super(key: key);
+
+  @override
+  _BookingModalState createState() => _BookingModalState();
+}
+
+class _BookingModalState extends State<BookingModal> {
+  int _nights = 1;
+  int _adults = 1;
+  int _children = 0;
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate =
+      DateTime.now().add(Duration(days: 1)); // Default to one night
+
+  @override
+  Widget build(BuildContext context) {
+    _nights = _endDate.difference(_startDate).inDays;
+
+    final totalPrice = (widget.hotel.price.replaceAll('DT', '').trim() != '')
+        ? (double.parse(widget.hotel.price.replaceAll('DT', '').trim()) *
+                _nights *
+                (_adults + _children / 2))
+            .toStringAsFixed(2)
+        : 'N/A';
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            widget.hotel.name,
+            style: const TextStyle(
+              fontSize: 20.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Nights:'),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _nights = _nights > 1 ? _nights - 1 : 1;
+                      });
+                    },
+                    icon: const Icon(Icons.remove),
+                  ),
+                  Text(_nights.toString()),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _nights++;
+                      });
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Start Date:'),
+              TextButton(
+                onPressed: () async {
+                  final pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _startDate,
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null && pickedDate != _startDate) {
+                    setState(() {
+                      _startDate = pickedDate;
+                    });
+                  }
+                },
+                child: Text(_startDate.toIso8601String()),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('End Date:'),
+              TextButton(
+                onPressed: () async {
+                  final pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: _endDate,
+                    firstDate: _startDate,
+                    lastDate: DateTime(2100),
+                  );
+                  if (pickedDate != null && pickedDate != _endDate) {
+                    setState(() {
+                      _endDate = pickedDate;
+                    });
+                  }
+                },
+                child: Text(_endDate.toIso8601String()),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Adults:'),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _adults = _adults > 1 ? _adults - 1 : 1;
+                      });
+                    },
+                    icon: const Icon(Icons.remove),
+                  ),
+                  Text(_adults.toString()),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _adults++;
+                      });
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text('Children:'),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _children = _children > 0 ? _children - 1 : 0;
+                      });
+                    },
+                    icon: const Icon(Icons.remove),
+                  ),
+                  Text(_children.toString()),
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _children++;
+                      });
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 16.0),
+          Text(
+            'Total Price: \$${totalPrice == 'N/A' ? totalPrice : double.parse(totalPrice)}',
+            style: const TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () {
+              final userId = FirebaseAuth.instance.currentUser?.uid;
+              if (userId != null) {
+                FirebaseFirestore.instance.collection('bookedHotels').add({
+                  'userId': userId,
+                  'hotelName': widget.hotel.name,
+                  'location': widget.hotel.location,
+                  'nights': _nights,
+                  'adults': _adults,
+                  'children': _children,
+                  'totalPrice': double.parse(totalPrice),
+                  'imageAsset': widget.hotel.imageAsset,
+                  'startDate': _startDate.toIso8601String(), // Add start date
+                  'endDate': _endDate.toIso8601String(), // Add end date
+                });
+                Navigator.pop(context);
+              }
+            },
+            child: const Text('Book'),
           ),
         ],
       ),

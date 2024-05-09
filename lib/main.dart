@@ -8,6 +8,9 @@ import 'SignUpPage.dart';
 import 'description.dart';
 import 'hotel/hotel.dart';
 import 'hotel/hotelRegion.dart';
+import 'hotel/booked_hotel_details.dart';
+import 'hotel/booked_hotels_page.dart';
+
 import 'restaurant/restaurant.dart';
 import 'restaurant/restaurantType.dart';
 import 'firebase_options.dart'; // Import the firebase_options.dart file
@@ -62,6 +65,8 @@ class MyApp extends StatelessWidget {
         '/restaurant': (context) => RestaurantPage(
             type: ModalRoute.of(context)?.settings.arguments as String ??
                 'Modern'),
+        '/booked-hotels': (context) =>
+            const BookedHotelsPage(), // Add this line
       },
     );
   }
@@ -101,6 +106,18 @@ class MainScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
+            onPressed: () {
+              // Navigate to the login page after logging out
+              FirebaseAuth.instance.signOut().then((_) {
+                Navigator.pushReplacementNamed(context, '/login');
+              });
+            },
+            icon: const Icon(
+              Icons.logout,
+              size: 30,
+            ),
+          ),
+          IconButton(
             onPressed: () {},
             icon: const Icon(
               Icons.home,
@@ -128,7 +145,7 @@ class MainScreen extends StatelessWidget {
             ListTile(
               title: const Text('Guides'),
               onTap: () {
-// Handle guide button tap
+                // Handle guide button tap
               },
             ),
             ListTile(
@@ -137,10 +154,16 @@ class MainScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/restaurantType');
               },
             ),
+            ListTile(
+              title: const Text('Booked Hotels'),
+              onTap: () {
+                Navigator.pushNamed(context, '/booked-hotels');
+              },
+            ),
           ],
         ),
       ),
-      body: const Catalog(), // Display the Catalog widget in the body
+      body: const Catalog(),
     );
   }
 }
