@@ -1,4 +1,3 @@
-// hotel.dart
 import 'package:flutter/material.dart';
 
 class HotelPage extends StatelessWidget {
@@ -24,25 +23,28 @@ class HotelPage extends StatelessWidget {
   }
 
   List<Hotel> getHotelsForRegion(String region) {
-    // Hardcoded list of hotels for the Sahel region
+    // Hardcoded list of hotels for different regions
     if (region == 'Sahel') {
       return [
         Hotel(
           name: 'Hotel Hasdrubal Thalassa & Spa',
           location: 'Sousse',
           rating: 4.5,
+          price: 200,
           imageAsset: 'assets/images/hotels/thalasso.jpg',
         ),
         Hotel(
           name: 'Sentido Phenicia',
           location: 'Hammamet',
           rating: 4.2,
+          price: 150,
           imageAsset: 'assets/images/hotels/Sentido.jpg',
         ),
         Hotel(
           name: 'Hotel El Mouradi',
           location: 'Mahdia',
           rating: 4.0,
+          price: 120,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
@@ -53,6 +55,7 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel El Mouradi Cap Serrat',
           location: 'Bizerte',
           rating: 4.0,
+          price: 100,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
@@ -63,6 +66,7 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel El Mouradi ',
           location: 'Bizerte',
           rating: 4.0,
+          price: 110,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
@@ -73,6 +77,7 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel El Mouradi Cap Serrat',
           location: 'Bizerte',
           rating: 4.0,
+          price: 95,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
@@ -87,12 +92,14 @@ class Hotel {
   final String name;
   final String location;
   final double rating;
+  final int price; // New property for price
   final String imageAsset;
 
   Hotel({
     required this.name,
     required this.location,
     required this.rating,
+    required this.price,
     required this.imageAsset,
   });
 }
@@ -153,6 +160,14 @@ class HotelListTile extends StatelessWidget {
                       const SizedBox(width: 4.0),
                       Text(
                         hotel.rating.toString(),
+                        style: const TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      Text(
+                        '\$${hotel.price}', // Displaying the price
                         style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
