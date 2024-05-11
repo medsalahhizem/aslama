@@ -27,22 +27,22 @@ class RestaurantPage extends StatelessWidget {
     if (type == 'Modern') {
       return [
         Restaurant(
-          name: 'L’aromate Restaurant - Pizzeria',
+          name: "L'aromate Restaurant - Pizzeria",
           location: 'Sousse',
           rating: 3.8,
-          imageAsset: 'images/restaurants/aromate.jpg',
+          imageAsset: 'assets/images/restaurants/aromate.jpg',
         ),
         Restaurant(
           name: 'LE CHANDELIER - CANDLE HOUSE',
           location: 'Monastir',
           rating: 4.2,
-          imageAsset: 'images/restaurants/chandelier.jpg',
+          imageAsset: 'assets/images/restaurants/chandelier.jpg',
         ),
         Restaurant(
           name: 'Le comptoire du Tunis',
           location: 'Tunis',
           rating: 4.0,
-          imageAsset: 'images/restaurants/lecomptoire.jpeg',
+          imageAsset: 'assets/images/restaurants/lecomptoire.jpeg',
         ),
         // Add more hotels as needed
       ];
@@ -52,7 +52,7 @@ class RestaurantPage extends StatelessWidget {
           name: 'Dar Chraka',
           location: 'Monastir',
           rating: 4.0,
-          imageAsset: 'images/restaurants/chraka.jpg',
+          imageAsset: 'assets/images/restaurants/chraka.jpg',
         ),
         // Add more hotels as needed
       ];
@@ -86,7 +86,7 @@ class RestaurantListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -94,8 +94,8 @@ class RestaurantListTile extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(
               restaurant.imageAsset,
-              width: 100.0,
-              height: 100.0,
+              width: 80.0,
+              height: 80.0,
               fit: BoxFit.cover,
             ),
           ),
@@ -108,17 +108,19 @@ class RestaurantListTile extends StatelessWidget {
                   Text(
                     restaurant.name,
                     style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4.0),
                   Text(
                     restaurant.location,
                     style: const TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8.0),
                   Row(
@@ -126,12 +128,13 @@ class RestaurantListTile extends StatelessWidget {
                       Icon(
                         Icons.star,
                         color: Colors.amber[600],
+                        size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
                       Text(
                         restaurant.rating.toString(),
                         style: const TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

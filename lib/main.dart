@@ -1,11 +1,13 @@
-import 'package:aslama/restaurant/restaurantType.dart';
 import 'package:flutter/material.dart';
-import 'catalog.dart'; // Import the catalog.dart file
-import 'description.dart'; // Import the catalog.dart file
-import 'hotel/hotel.dart'; // Import the catalog.dart file
+import 'auth/LoginPage.dart';
+import 'auth/SignupPage.dart';
+import 'catalog.dart';
+import 'description.dart';
+import 'hotel/hotel.dart';
 import 'hotel/hotelRegion.dart';
-import 'restaurant/restaurant.dart'; // Import the catalog.dart file
-import 'restaurant/restaurantType.dart'; // Import the catalog.dart file
+import 'restaurant/restaurant.dart';
+import 'restaurant/restaurantType.dart';
+import '../database_helper.dart'; // Make sure to import your database helper
 
 void main() {
   runApp(const MyApp());
@@ -19,28 +21,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light().copyWith(useMaterial3: true),
-      initialRoute: '/', // Set the initial route
+      initialRoute: '/login',
       routes: {
         '/': (context) => const MainScreen(),
+        '/login': (context) => LoginPage(),
+        '/signup': (context) => SignUpPage(),
         '/beach': (context) => const DescriptionPage(title: 'Beach'),
         '/cuisine': (context) => const DescriptionPage(title: 'Cuisine'),
-        '/Hiking': (context) =>
-            const DescriptionPage(title: 'Hiking'), // Update route name
-        '/Ice': (context) =>
-            const DescriptionPage(title: 'Ice'), // Update route name
+        '/Hiking': (context) => const DescriptionPage(title: 'Hiking'),
+        '/Ice': (context) => const DescriptionPage(title: 'Ice'),
         '/desert': (context) => const DescriptionPage(title: 'Desert'),
-        '/old cities': (context) =>
-            const DescriptionPage(title: 'Old Cities'), // Update route name
-        '/Historical places': (context) => const DescriptionPage(
-            title: 'Historical Places'), // Update route name
-        '/River': (context) =>
-            const DescriptionPage(title: 'River'), // Update route name
-        '/hotelRegion': (context) => const HotelRegionPage(), // Add this line
+        '/old cities': (context) => const DescriptionPage(title: 'Old Cities'),
+        '/Historical places': (context) =>
+            const DescriptionPage(title: 'Historical Places'),
+        '/River': (context) => const DescriptionPage(title: 'River'),
+        '/hotelRegion': (context) => const HotelRegionPage(),
         '/hotels': (context) => HotelPage(
             region: ModalRoute.of(context)?.settings.arguments as String ??
                 'Sahel'),
-        '/restaurantType': (context) =>
-            const RestaurantTypePage(), // Add this line
+        '/restaurantType': (context) => const RestaurantTypePage(),
         '/restaurant': (context) => RestaurantPage(
             type: ModalRoute.of(context)?.settings.arguments as String ??
                 'Modern'),
@@ -72,7 +71,7 @@ class MainScreen extends StatelessWidget {
           builder: (BuildContext context) {
             return IconButton(
               onPressed: () {
-                Scaffold.of(context).openDrawer(); // Open the drawer
+                Scaffold.of(context).openDrawer();
               },
               icon: const Icon(
                 Icons.menu,
@@ -82,6 +81,12 @@ class MainScreen extends StatelessWidget {
           },
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -110,7 +115,7 @@ class MainScreen extends StatelessWidget {
             ListTile(
               title: const Text('Guides'),
               onTap: () {
-// Handle guide button tap
+                // Handle guide button tap
               },
             ),
             ListTile(
@@ -122,7 +127,7 @@ class MainScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: const Catalog(), // Display the Catalog widget in the body
+      body: const Catalog(),
     );
   }
 }

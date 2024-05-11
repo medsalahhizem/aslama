@@ -14,7 +14,7 @@ class Catalog extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 4.0),
               child: Image.asset(
-                'images/header.jpg',
+                'assets/images/header.jpg',
                 fit: BoxFit.cover,
               ),
             ),

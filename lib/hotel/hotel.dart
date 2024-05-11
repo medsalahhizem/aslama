@@ -1,3 +1,4 @@
+// hotel.dart
 import 'package:flutter/material.dart';
 
 class HotelPage extends StatelessWidget {
@@ -30,19 +31,19 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel Hasdrubal Thalassa & Spa',
           location: 'Sousse',
           rating: 4.5,
-          imageAsset: 'images/hotels/thalasso.jpg',
+          imageAsset: 'assets/images/hotels/thalasso.jpg',
         ),
         Hotel(
           name: 'Sentido Phenicia',
           location: 'Hammamet',
           rating: 4.2,
-          imageAsset: 'images/hotels/Sentido.jpg',
+          imageAsset: 'assets/images/hotels/Sentido.jpg',
         ),
         Hotel(
           name: 'Hotel El Mouradi',
           location: 'Mahdia',
           rating: 4.0,
-          imageAsset: 'images/hotels/Mouradi.jpg',
+          imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
       ];
@@ -52,7 +53,7 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel El Mouradi Cap Serrat',
           location: 'Bizerte',
           rating: 4.0,
-          imageAsset: 'images/hotels/Mouradi.jpg',
+          imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
       ];
@@ -62,7 +63,7 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel El Mouradi ',
           location: 'Bizerte',
           rating: 4.0,
-          imageAsset: 'images/hotels/Mouradi.jpg',
+          imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
       ];
@@ -72,7 +73,7 @@ class HotelPage extends StatelessWidget {
           name: 'Hotel El Mouradi Cap Serrat',
           location: 'Bizerte',
           rating: 4.0,
-          imageAsset: 'images/hotels/Mouradi.jpg',
+          imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
         // Add more hotels as needed
       ];
@@ -105,7 +106,7 @@ class HotelListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2.0,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -113,8 +114,8 @@ class HotelListTile extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(
               hotel.imageAsset,
-              width: 100.0,
-              height: 100.0,
+              width: 80.0,
+              height: 80.0,
               fit: BoxFit.cover,
             ),
           ),
@@ -127,17 +128,19 @@ class HotelListTile extends StatelessWidget {
                   Text(
                     hotel.name,
                     style: const TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4.0),
                   Text(
                     hotel.location,
                     style: const TextStyle(
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                       color: Colors.grey,
                     ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 8.0),
                   Row(
@@ -145,12 +148,13 @@ class HotelListTile extends StatelessWidget {
                       Icon(
                         Icons.star,
                         color: Colors.amber[600],
+                        size: 16.0,
                       ),
                       const SizedBox(width: 4.0),
                       Text(
                         hotel.rating.toString(),
                         style: const TextStyle(
-                          fontSize: 16.0,
+                          fontSize: 14.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

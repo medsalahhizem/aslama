@@ -12,7 +12,7 @@ class HotelRegionPage extends StatelessWidget {
       body: Column(
         children: [
           Image.asset(
-            'images/hotel_header.jpeg',
+            'assets/images/hotel_header.jpeg',
             width: MediaQuery.of(context).size.width * 0.96,
 
             fit: BoxFit
