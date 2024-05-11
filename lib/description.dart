@@ -133,7 +133,7 @@ class DescriptionPage extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Image.asset(
-          'assets/images/catalog/chenini.jpg',
+          'assets/images/catalog/Chenini.jpg',
           height: 200,
           fit: BoxFit.cover,
         ),

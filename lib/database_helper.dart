@@ -28,13 +28,25 @@ class DatabaseHelper {
 
   Future _createDB(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE $userTable (
-        $colId INTEGER PRIMARY KEY AUTOINCREMENT,
-        $colUsername TEXT NOT NULL,
-        $colEmail TEXT NOT NULL,
-        $colPassword TEXT NOT NULL
-      )
-    ''');
+    CREATE TABLE $userTable (
+      $colId INTEGER PRIMARY KEY AUTOINCREMENT,
+      $colUsername TEXT NOT NULL,
+      $colEmail TEXT NOT NULL,
+      $colPassword TEXT NOT NULL
+    )
+  ''');
+    await db.execute('''
+    CREATE TABLE booking_table (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      hotel_name TEXT NOT NULL,
+      start_date TEXT NOT NULL,
+      end_date TEXT NOT NULL,
+      adults INTEGER NOT NULL,
+      children INTEGER NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES $userTable($colId)
+    )
+  ''');
   }
 
   Future<int> insertUser(Map<String, dynamic> row) async {
@@ -52,5 +64,10 @@ class DatabaseHelper {
     List<Map<String, dynamic>> result = await db!
         .query(userTable, where: '$colUsername = ?', whereArgs: [username]);
     return result.isNotEmpty ? result.first : null;
+  }
+
+  Future<int> insertBooking(Map<String, dynamic> row) async {
+    Database? db = await instance.database;
+    return await db!.insert('booking_table', row);
   }
 }
