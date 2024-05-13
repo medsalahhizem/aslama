@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'booking_modal.dart';
 
 class HotelPage extends StatelessWidget {
   final String region;
@@ -167,7 +168,7 @@ class HotelListTile extends StatelessWidget {
                       ),
                       const SizedBox(width: 8.0),
                       Text(
-                        '\$${hotel.price}', // Displaying the price
+                        '${hotel.price}',
                         style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
@@ -178,6 +179,15 @@ class HotelListTile extends StatelessWidget {
                 ],
               ),
             ),
+          ),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) => BookingModal(hotel: hotel),
+              );
+            },
+            icon: const Icon(Icons.book),
           ),
         ],
       ),

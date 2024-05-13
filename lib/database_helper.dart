@@ -13,6 +13,15 @@ class DatabaseHelper {
   String colEmail = 'email';
   String colPassword = 'password';
 
+  String bookingsTable = 'bookings_table';
+  String colHotelName = 'hotel_name';
+  String colLocation = 'location';
+  String colStartDate = 'start_date';
+  String colEndDate = 'end_date';
+  String colAdults = 'adults';
+  String colChildren = 'children';
+  String colTotalPrice = 'total_price';
+
   Future<Database?> get database async {
     if (_database != null) return _database;
     _database = await _initDB();
@@ -35,15 +44,19 @@ class DatabaseHelper {
       $colPassword TEXT NOT NULL
     )
   ''');
+
     await db.execute('''
-    CREATE TABLE booking_table (
+    CREATE TABLE $bookingsTable (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       hotel_name TEXT NOT NULL,
+      location TEXT NOT NULL,
       start_date TEXT NOT NULL,
       end_date TEXT NOT NULL,
       adults INTEGER NOT NULL,
       children INTEGER NOT NULL,
+      total_price REAL NOT NULL,
+      image_asset TEXT NOT NULL,  
       FOREIGN KEY (user_id) REFERENCES $userTable($colId)
     )
   ''');
@@ -62,12 +75,40 @@ class DatabaseHelper {
   Future<Map<String, dynamic>?> getUserByUsername(String username) async {
     Database? db = await instance.database;
     List<Map<String, dynamic>> result = await db!
-        .query(userTable, where: '$colUsername = ?', whereArgs: [username]);
+        .query(userTable, where: '$colUsername =?', whereArgs: [username]);
     return result.isNotEmpty ? result.first : null;
+  }
+
+  Future<int?> getUserIDByUsername(String username) async {
+    Database? db = await instance.database;
+    List<Map<String, dynamic>> result = await db!
+        .query(userTable, where: '$colUsername =?', whereArgs: [username]);
+    return result.isNotEmpty ? result.first[colId] : null;
   }
 
   Future<int> insertBooking(Map<String, dynamic> row) async {
     Database? db = await instance.database;
-    return await db!.insert('booking_table', row);
+    row['image_asset'] = row['image_asset'] ?? ''; // Add this line
+    return await db!.insert(bookingsTable, row);
+  }
+
+  Future<List<Map<String, dynamic>>> getBookedHotels() async {
+    Database? db = await instance.database;
+    return await db!.query(bookingsTable);
+  }
+
+  Future<int> deleteBooking(int id) async {
+    Database? db = await instance.database;
+    return await db!
+        .delete(bookingsTable, where: '$colId = ?', whereArgs: [id]);
+  }
+
+  Future<List<Map<String, dynamic>>> getBookedHotelsForUser(int userId) async {
+    Database? db = await instance.database;
+    return await db!.query(
+      bookingsTable,
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
   }
 }

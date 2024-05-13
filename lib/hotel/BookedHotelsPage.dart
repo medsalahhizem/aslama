@@ -1,0 +1,80 @@
+import 'package:flutter/material.dart';
+import '../database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'BookingDetailsPage.dart';
+
+class BookedHotelsPage extends StatefulWidget {
+  const BookedHotelsPage({Key? key}) : super(key: key);
+
+  @override
+  _BookedHotelsPageState createState() => _BookedHotelsPageState();
+  void refreshBookedHotels() {
+    final state = _BookedHotelsPageState();
+    if (state.mounted) {
+      state._loadBookedHotels();
+    }
+  }
+}
+
+class _BookedHotelsPageState extends State<BookedHotelsPage> {
+  List<Map<String, dynamic>> _bookedHotels = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBookedHotels();
+  }
+
+  Future<void> _loadBookedHotels() async {
+    // Get the logged-in user's ID from shared preferences or state management
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('userId');
+
+    if (userId != null) {
+      final bookedHotels =
+          await DatabaseHelper.instance.getBookedHotelsForUser(userId);
+      setState(() {
+        _bookedHotels = bookedHotels;
+      });
+    } else {
+      // Handle the case where the user is not logged in
+      print('User not logged in');
+    }
+  }
+
+  void _cancelBooking(int id) async {
+    await DatabaseHelper.instance.deleteBooking(id);
+    _loadBookedHotels();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Booked Hotels'),
+      ),
+      body: ListView.builder(
+        itemCount: _bookedHotels.length,
+        itemBuilder: (context, index) {
+          final booking = _bookedHotels[index];
+          return Card(
+            elevation: 2.0,
+            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+            child: ListTile(
+              title: Text(booking['hotel_name']),
+              subtitle: Text('Start Date: ${booking['start_date']}'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingDetailsPage(booking: booking),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}

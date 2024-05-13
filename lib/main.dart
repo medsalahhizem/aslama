@@ -8,8 +8,11 @@ import 'hotel/hotelRegion.dart';
 import 'restaurant/restaurant.dart';
 import 'restaurant/restaurantType.dart';
 import '../database_helper.dart'; // Make sure to import your database helper
+import 'hotel/BookedHotelsPage.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await DatabaseHelper.instance.database; // Ensure database is initialized
   runApp(const MyApp());
 }
 
@@ -43,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/restaurant': (context) => RestaurantPage(
             type: ModalRoute.of(context)?.settings.arguments as String ??
                 'Modern'),
+        '/bookedHotels': (context) => const BookedHotelsPage(),
       },
     );
   }
@@ -110,6 +114,12 @@ class MainScreen extends StatelessWidget {
               title: const Text('Hotels'),
               onTap: () {
                 Navigator.pushNamed(context, '/hotelRegion');
+              },
+            ),
+            ListTile(
+              title: const Text('Booked Hotels'),
+              onTap: () {
+                Navigator.pushNamed(context, '/bookedHotels');
               },
             ),
             ListTile(

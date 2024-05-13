@@ -1,6 +1,7 @@
 // LoginPage.dart
 import 'package:flutter/material.dart';
 import '../database_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -40,27 +41,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () async {
-                String username = _usernameController.text;
-                String password = _passwordController.text;
-
-                Map<String, dynamic>? user =
-                    await DatabaseHelper.instance.getUserByUsername(username);
-
-                if (user != null && user['password'] == password) {
-                  Navigator.pushReplacementNamed(context, '/');
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Login Failed'),
-                        content: Text('Invalid username or password.'),
-                      );
-                    },
-                  );
-                }
-              },
+              onPressed: _login,
               child: Text('Login'),
             ),
             SizedBox(height: 20),
@@ -74,5 +55,32 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _login() async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    Map<String, dynamic>? user =
+        await DatabaseHelper.instance.getUserByUsername(username);
+
+    if (user != null && user['password'] == password) {
+      // Store the logged-in user's information
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setInt('userId', user['id']);
+      await prefs.setString('username', user['username']);
+
+      Navigator.pushReplacementNamed(context, '/');
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Failed'),
+            content: Text('Invalid username or password.'),
+          );
+        },
+      );
+    }
   }
 }
