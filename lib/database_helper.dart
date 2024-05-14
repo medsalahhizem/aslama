@@ -44,6 +44,14 @@ class DatabaseHelper {
       $colPassword TEXT NOT NULL
     )
   ''');
+   await db.insert(
+    userTable,
+    {
+      colUsername: 'admin',
+      colEmail: 'admin@gmail.com',
+      colPassword: 'admin',
+    },
+  );
 
     await db.execute('''
     CREATE TABLE $bookingsTable (
@@ -133,5 +141,9 @@ Future<List<Map<String, dynamic>>> getOrdersForUser(int userId) async {
     where: 'user_id = ?',
     whereArgs: [userId],
   );
+}
+Future<int> deleteUser(int id) async {
+  Database? db = await instance.database;
+  return await db!.delete(userTable, where: '$colId = ?', whereArgs: [id]);
 }
 }

@@ -8,20 +8,18 @@ import 'hotel/hotelRegion.dart';
 import 'restaurant/restaurant.dart';
 import 'restaurant/restaurantType.dart';
 import 'restaurant/RestaurantOrdersPage.dart';
-import '../database_helper.dart'; // Make sure to import your database helper
+import '../database_helper.dart';
 import 'hotel/BookedHotelsPage.dart';
-
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'user_dashboard.dart'; // Import the UserDashboard widget
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await DatabaseHelper.instance.database; // Ensure database is initialized
-  runApp(const MyApp());
+  await DatabaseHelper.instance.database;
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,36 +27,54 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(useMaterial3: true),
       initialRoute: '/login',
       routes: {
-        '/': (context) => const MainScreen(),
+        '/': (context) => MainScreen(),
         '/login': (context) => LoginPage(),
         '/signup': (context) => SignUpPage(),
-        '/beach': (context) => const DescriptionPage(title: 'Beach'),
-        '/cuisine': (context) => const DescriptionPage(title: 'Cuisine'),
-        '/Hiking': (context) => const DescriptionPage(title: 'Hiking'),
-        '/Ice': (context) => const DescriptionPage(title: 'Ice'),
-        '/desert': (context) => const DescriptionPage(title: 'Desert'),
-        '/old cities': (context) => const DescriptionPage(title: 'Old Cities'),
+        '/beach': (context) => DescriptionPage(title: 'Beach'),
+        '/cuisine': (context) => DescriptionPage(title: 'Cuisine'),
+        '/Hiking': (context) => DescriptionPage(title: 'Hiking'),
+        '/Ice': (context) => DescriptionPage(title: 'Ice'),
+        '/desert': (context) => DescriptionPage(title: 'Desert'),
+        '/old cities': (context) => DescriptionPage(title: 'Old Cities'),
         '/Historical places': (context) =>
-            const DescriptionPage(title: 'Historical Places'),
-        '/River': (context) => const DescriptionPage(title: 'River'),
-        '/hotelRegion': (context) => const HotelRegionPage(),
+            DescriptionPage(title: 'Historical Places'),
+        '/River': (context) => DescriptionPage(title: 'River'),
+        '/hotelRegion': (context) => HotelRegionPage(),
         '/hotels': (context) => HotelPage(
             region: ModalRoute.of(context)?.settings.arguments as String ??
                 'Sahel'),
-        '/restaurantType': (context) => const RestaurantTypePage(),
+        '/restaurantType': (context) => RestaurantTypePage(),
         '/restaurant': (context) => RestaurantPage(
             type: ModalRoute.of(context)?.settings.arguments as String ??
                 'Modern'),
-        '/bookedHotels': (context) => const BookedHotelsPage(),
-                '/OredersPage': (context) => const RestaurantOrdersPage(),
-
+        '/bookedHotels': (context) => BookedHotelsPage(),
+        '/OredersPage': (context) => RestaurantOrdersPage(),
+        '/userDashboard': (context) => UserDashboard(),
       },
     );
   }
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  @override
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  String? _loggedInUsername;
+
+  @override
+  void initState() {
+    super.initState();
+    _getLoggedInUsername();
+  }
+
+  Future<void> _getLoggedInUsername() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _loggedInUsername = prefs.getString('username');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +143,7 @@ class MainScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/bookedHotels');
               },
             ),
-             ListTile(
+            ListTile(
               title: const Text('Restaurant Orders'),
               onTap: () {
                 Navigator.pushNamed(context, '/OredersPage');
@@ -145,10 +161,17 @@ class MainScreen extends StatelessWidget {
                 Navigator.pushNamed(context, '/restaurantType');
               },
             ),
+            if (_loggedInUsername == 'admin')
+              ListTile(
+                title: const Text('Admin Dashboard'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/userDashboard');
+                },
+              ),
           ],
         ),
       ),
-      body: const Catalog(),
+      body: Catalog(),
     );
   }
 }
