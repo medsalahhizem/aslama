@@ -185,9 +185,17 @@ class OrderModal extends StatefulWidget {
 
 class _OrderModalState extends State<OrderModal> {
   final Map<MenuItem, int> _selectedItems = {};
+  final Map<MenuItem, TextEditingController> _itemControllers = {};
   String _location = '';
   double _totalPrice = 0;
 
+  @override
+  void dispose() {
+    for (TextEditingController controller in _itemControllers.values) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -237,30 +245,33 @@ class _OrderModalState extends State<OrderModal> {
                 },
               ),
               const SizedBox(height: 8.0),
-              ..._selectedItems.entries.map((entry) => Row(
-                    children: [
-                      Text(entry.key.name),
-                      const SizedBox(width: 8.0),
-                      SizedBox(
-                        width: 50.0,
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
-                          ),
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedItems[entry.key] = value.isNotEmpty ? int.parse(value) : 0;
-                              _calculateTotalPrice();
-                            });
-                          },
-                          controller: TextEditingController(text: entry.value.toString()),
-                        ),
-                      ),
-                    ],
-                  )),
-            ],
-          ),
+              ..._selectedItems.entries.map((entry) {
+            _itemControllers.putIfAbsent(entry.key, () => TextEditingController(text: entry.value.toString()));
+            return Row(
+              children: [
+                Text(entry.key.name),
+                const SizedBox(width: 8.0),
+                SizedBox(
+                  width: 50.0,
+                  child: TextField(
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
+                    ),
+                    keyboardType: TextInputType.number,
+                    controller: _itemControllers[entry.key],
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedItems[entry.key] = value.isNotEmpty ? int.parse(value) : 0;
+                        _calculateTotalPrice();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            );
+          }),
+        ],
+      ),
           const SizedBox(height: 16.0),
           Text(
             'Total Price: \$${_totalPrice.toStringAsFixed(2)}',
