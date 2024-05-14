@@ -60,6 +60,17 @@ class DatabaseHelper {
       FOREIGN KEY (user_id) REFERENCES $userTable($colId)
     )
   ''');
+  await db.execute('''
+CREATE TABLE restaurant_orders (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+user_id INTEGER NOT NULL,
+restaurant_name TEXT NOT NULL,
+location TEXT NOT NULL,
+order_details TEXT NOT NULL,
+total_price REAL NOT NULL,
+FOREIGN KEY (user_id) REFERENCES $userTable($colId)
+)
+''');
   }
 
   Future<int> insertUser(Map<String, dynamic> row) async {
@@ -111,4 +122,16 @@ class DatabaseHelper {
       whereArgs: [userId],
     );
   }
+  Future<int> insertOrder(Map<String, dynamic> row) async {
+  Database? db = await instance.database;
+  return await db!.insert('restaurant_orders', row);
+}
+Future<List<Map<String, dynamic>>> getOrdersForUser(int userId) async {
+  Database? db = await instance.database;
+  return await db!.query(
+    'restaurant_orders',
+    where: 'user_id = ?',
+    whereArgs: [userId],
+  );
+}
 }

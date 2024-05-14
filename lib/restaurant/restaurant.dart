@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import '../database_helper.dart';
+import 'RestaurantOrdersPage.dart';
 class RestaurantPage extends StatelessWidget {
   final String type;
 
@@ -287,16 +289,12 @@ class _OrderModalState extends State<OrderModal> {
           onPressed: () => Navigator.pop(context),
           child: const Text('Cancel'),
         ),
-        ElevatedButton(
-          onPressed: _location.isNotEmpty && _selectedItems.isNotEmpty
-              ? () {
-                  // Handle order submission
-                  Navigator.pop(context);
-                }
-              : null,
-          child: const Text('Order'),
-        ),
-      ],
+ElevatedButton(
+  onPressed: _location.isNotEmpty && _selectedItems.isNotEmpty
+      ? _submitOrder
+      : null,
+  child: const Text('Order'),
+),      ],
     );
   }
 
@@ -306,4 +304,38 @@ class _OrderModalState extends State<OrderModal> {
       _totalPrice += entry.key.price * entry.value;
     }
   }
+  void _submitOrder() async {
+  if (_location.isNotEmpty && _selectedItems.isNotEmpty) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? userId = prefs.getInt('userId');
+
+    if (userId != null) {
+      final order = {
+        'user_id': userId,
+        'restaurant_name': widget.restaurant.name,
+        'location': _location,
+        'order_details': _selectedItems.entries
+            .map((entry) => '${entry.value} x ${entry.key.name}')
+            .join(', '),
+        'total_price': _totalPrice,
+      };
+
+      final id = await DatabaseHelper.instance.insertOrder(order);
+      print('Order inserted with ID: $id');
+
+      if (mounted) {
+        final restaurantOrdersPage =
+            context.findAncestorWidgetOfExactType<RestaurantOrdersPage>();
+        if (restaurantOrdersPage != null) {
+          restaurantOrdersPage.refreshRestaurantOrders();
+        }
+      }
+
+      Navigator.pop(context);
+    } else {
+      print('User not logged in');
+    }
+  }
+}
+
 }
