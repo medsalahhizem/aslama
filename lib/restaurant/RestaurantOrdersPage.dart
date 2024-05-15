@@ -24,8 +24,26 @@ class _RestaurantOrdersPageState extends State<RestaurantOrdersPage> {
     super.initState();
     _loadOrders();
   }
-
-  Future<void> _loadOrders() async {
+Future<void> _deleteOrder(int orderId) async {
+  int rowsDeleted = await DatabaseHelper.instance.deleteOrder(orderId);
+  if (rowsDeleted > 0) {
+    // Order deleted successfully, update the UI
+    setState(() {
+      _orders = _orders.where((order) => order['id'] != orderId).toList();
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Order cancelled'),
+      ),
+    );
+  } else {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to cancel order'),
+      ),
+    );
+  }
+}  Future<void> _loadOrders() async {
     // Get the logged-in user's ID from shared preferences or state management
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? userId = prefs.getInt('userId');
@@ -41,33 +59,38 @@ class _RestaurantOrdersPageState extends State<RestaurantOrdersPage> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Restaurant Orders'),
-      ),
-      body: ListView.builder(
-        itemCount: _orders.length,
-        itemBuilder: (context, index) {
-          final order = _orders[index];
-          return Card(
-            elevation: 2.0,
-            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: ListTile(
-              title: Text(order['restaurant_name']),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Location: ${order['location']}'),
-                  Text('Order Details: ${order['order_details']}'),
-                  Text('Total Price: \$${order['total_price'].toStringAsFixed(2)}'),
-                ],
-              ),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Restaurant Orders'),
+    ),
+    body: ListView.builder(
+      itemCount: _orders.length,
+      itemBuilder: (context, index) {
+        final order = _orders[index];
+        return Card(
+          elevation: 2.0,
+          margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+          child: ListTile(
+            title: Text(order['restaurant_name']),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Location: ${order['location']}'),
+                Text('Order Details: ${order['order_details']}'),
+                Text('Total Price: \$${order['total_price'].toStringAsFixed(2)}'),
+              ],
             ),
-          );
-        },
-      ),
-    );
-  }
-}
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
+                _deleteOrder(order['id']);
+              },
+            ),
+          ),
+        );
+      },
+    ),
+  );
+}}

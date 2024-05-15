@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'BookingDetailsPage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BookedHotelsPage extends StatefulWidget {
   const BookedHotelsPage({Key? key}) : super(key: key);
@@ -45,6 +46,8 @@ class _BookedHotelsPageState extends State<BookedHotelsPage> {
   void _cancelBooking(int id) async {
     await DatabaseHelper.instance.deleteBooking(id);
     _loadBookedHotels();
+      Fluttertoast.showToast(msg: "Booking cancelled successfully");
+
   }
 
   @override
@@ -57,22 +60,51 @@ class _BookedHotelsPageState extends State<BookedHotelsPage> {
         itemCount: _bookedHotels.length,
         itemBuilder: (context, index) {
           final booking = _bookedHotels[index];
-          return Card(
-            elevation: 2.0,
-            margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-            child: ListTile(
-              title: Text(booking['hotel_name']),
-              subtitle: Text('Start Date: ${booking['start_date']}'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => BookingDetailsPage(booking: booking),
-                  ),
-                );
-              },
-            ),
-          );
+       return Card(
+  elevation: 2.0,
+  margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+  child: ListTile(
+    title: Text(booking['hotel_name']),
+    subtitle: Text('Start Date: ${booking['start_date']}'),
+    trailing: IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Confirm Deletion'),
+              content: Text('Are you sure you want to delete this booking?'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text('Delete'),
+                  onPressed: () {
+                    _cancelBooking(booking['id']);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    ),
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BookingDetailsPage(booking: booking),
+        ),
+      );
+    },
+  ),
+);
         },
       ),
     );

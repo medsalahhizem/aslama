@@ -1,4 +1,3 @@
-// LoginPage.dart
 import 'package:flutter/material.dart';
 import '../database_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';

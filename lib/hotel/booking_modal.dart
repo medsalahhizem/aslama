@@ -3,6 +3,7 @@ import '../database_helper.dart';
 import 'hotel.dart';
 import 'BookedHotelsPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class BookingModal extends StatefulWidget {
   final Hotel hotel;
@@ -120,6 +121,7 @@ class _BookingModalState extends State<BookingModal> {
 
         final id = await DatabaseHelper.instance.insertBooking(booking);
         print('Booking inserted with ID: $id');
+      Fluttertoast.showToast(msg: "Hotel booked successfully");
 
         // Refresh the booked hotels list after successful insertion
         if (mounted) {

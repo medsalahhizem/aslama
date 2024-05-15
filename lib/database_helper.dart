@@ -146,4 +146,8 @@ Future<int> deleteUser(int id) async {
   Database? db = await instance.database;
   return await db!.delete(userTable, where: '$colId = ?', whereArgs: [id]);
 }
+Future<int> deleteOrder(int orderId) async {
+  Database? db = await instance.database;
+  return await db!.delete('restaurant_orders', where: 'id = ?', whereArgs: [orderId]);
+}
 }
