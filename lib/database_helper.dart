@@ -107,7 +107,7 @@ FOREIGN KEY (user_id) REFERENCES $userTable($colId)
 
   Future<int> insertBooking(Map<String, dynamic> row) async {
     Database? db = await instance.database;
-    row['image_asset'] = row['image_asset'] ?? ''; // Add this line
+    row['image_asset'] = row['image_asset'] ?? '';  
     return await db!.insert(bookingsTable, row);
   }
 

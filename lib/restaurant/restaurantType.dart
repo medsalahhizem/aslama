@@ -52,9 +52,9 @@ class RestaurantTypePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: 48.0), // Icon above the text
+            Icon(icon, color: Colors.white, size: 48.0),  
             const SizedBox(
-                height: 8.0), // Add some space between the icon and the text
+                height: 8.0),  
             Text(
               type,
               style: const TextStyle(

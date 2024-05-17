@@ -102,8 +102,7 @@ class _BookingModalState extends State<BookingModal> {
 
   void _bookHotel() async {
     if (_startDate != null && _endDate != null) {
-      // Get the logged-in user's ID from shared preferences or state management
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+       SharedPreferences prefs = await SharedPreferences.getInstance();
       int? userId = prefs.getInt('userId');
 
       if (userId != null) {
@@ -116,15 +115,14 @@ class _BookingModalState extends State<BookingModal> {
           'adults': _adults,
           'children': _children,
           'total_price': _totalPrice,
-          'image_asset': widget.hotel.imageAsset, // Add this line
+          'image_asset': widget.hotel.imageAsset, 
         };
 
         final id = await DatabaseHelper.instance.insertBooking(booking);
         print('Booking inserted with ID: $id');
       Fluttertoast.showToast(msg: "Hotel booked successfully");
 
-        // Refresh the booked hotels list after successful insertion
-        if (mounted) {
+         if (mounted) {
           final bookedHotelsPage =
               context.findAncestorWidgetOfExactType<BookedHotelsPage>();
           if (bookedHotelsPage != null) {
@@ -134,8 +132,7 @@ class _BookingModalState extends State<BookingModal> {
 
         Navigator.pop(context);
       } else {
-        // Handle the case where the user is not logged in
-        print('User not logged in');
+         print('User not logged in');
       }
     }
   }
@@ -147,8 +144,7 @@ class _BookingModalState extends State<BookingModal> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Start date picker
-          ListTile(
+           ListTile(
             title: const Text('Start Date'),
             trailing: Text(
               _startDate == null
@@ -157,8 +153,7 @@ class _BookingModalState extends State<BookingModal> {
             ),
             onTap: () => _selectStartDate(context),
           ),
-          // End date picker
-          ListTile(
+           ListTile(
             title: const Text('End Date'),
             trailing: Text(
               _endDate == null
@@ -167,8 +162,7 @@ class _BookingModalState extends State<BookingModal> {
             ),
             onTap: () => _selectEndDate(context),
           ),
-          // Adult counter
-          Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Adults'),
@@ -187,8 +181,7 @@ class _BookingModalState extends State<BookingModal> {
               ),
             ],
           ),
-          // Children counter
-          Row(
+           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Children'),

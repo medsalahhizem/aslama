@@ -27,7 +27,7 @@ class _BookedHotelsPageState extends State<BookedHotelsPage> {
   }
 
   Future<void> _loadBookedHotels() async {
-    // Get the logged-in user's ID from shared preferences or state management
+ 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? userId = prefs.getInt('userId');
 
@@ -38,8 +38,7 @@ class _BookedHotelsPageState extends State<BookedHotelsPage> {
         _bookedHotels = bookedHotels;
       });
     } else {
-      // Handle the case where the user is not logged in
-      print('User not logged in');
+       print('User not logged in');
     }
   }
 

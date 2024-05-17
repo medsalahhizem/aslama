@@ -11,7 +11,7 @@ import 'restaurant/RestaurantOrdersPage.dart';
 import '../database_helper.dart';
 import 'hotel/BookedHotelsPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'user_dashboard.dart'; // Import the UserDashboard widget
+import 'user_dashboard.dart';  
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,8 +84,8 @@ class _MainScreenState extends State<MainScreen> {
         toolbarHeight: 60,
         elevation: 20,
         title: Image.asset(
-          'assets/logo.png', // Replace 'assets/logo.png' with the path to your logo image
-          height: 40, // Adjust the height as needed
+          'assets/images/logo.png', 
+          height: 40,  
         ),
         centerTitle: true,
         leading: Builder(

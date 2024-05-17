@@ -24,8 +24,7 @@ class HotelPage extends StatelessWidget {
   }
 
   List<Hotel> getHotelsForRegion(String region) {
-    // Hardcoded list of hotels for different regions
-    if (region == 'Sahel') {
+     if (region == 'Sahel') {
       return [
         Hotel(
           name: 'Hotel Hasdrubal Thalassa & Spa',
@@ -48,8 +47,7 @@ class HotelPage extends StatelessWidget {
           price: 120,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
-        // Add more hotels as needed
-      ];
+       ];
     } else if (region == 'South') {
       return [
         Hotel(
@@ -59,8 +57,7 @@ class HotelPage extends StatelessWidget {
           price: 100,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
-        // Add more hotels as needed
-      ];
+       ];
     } else if (region == 'North') {
       return [
         Hotel(
@@ -70,8 +67,7 @@ class HotelPage extends StatelessWidget {
           price: 110,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
-        // Add more hotels as needed
-      ];
+       ];
     } else if (region == 'interior') {
       return [
         Hotel(
@@ -81,10 +77,9 @@ class HotelPage extends StatelessWidget {
           price: 95,
           imageAsset: 'assets/images/hotels/Mouradi.jpg',
         ),
-        // Add more hotels as needed
-      ];
+       ];
     } else {
-      return []; // Return an empty list for other regions
+      return [];  
     }
   }
 }
@@ -93,7 +88,7 @@ class Hotel {
   final String name;
   final String location;
   final double rating;
-  final int price; // New property for price
+  final int price;  
   final String imageAsset;
 
   Hotel({

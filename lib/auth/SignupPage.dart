@@ -1,5 +1,4 @@
-// SignupPage.dart
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import '../database_helper.dart';
 
 class SignUpPage extends StatefulWidget {

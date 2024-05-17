@@ -92,8 +92,7 @@ class Catalog extends StatelessWidget {
       required Color boxColor}) {
     return GestureDetector(
       onTap: () {
-        // Navigate to the respective description page
-        Navigator.pushNamed(context, '/$title');
+         Navigator.pushNamed(context, '/$title');
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2.0),

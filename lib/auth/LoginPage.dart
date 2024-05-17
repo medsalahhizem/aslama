@@ -70,8 +70,7 @@ class _LoginPageState extends State<LoginPage> {
         await DatabaseHelper.instance.getUserByUsername(username);
 
     if (user != null && user['password'] == password) {
-      // Store the logged-in user's information
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+       SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.setInt('userId', user['id']);
       await prefs.setString('username', user['username']);
 

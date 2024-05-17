@@ -27,8 +27,7 @@ class _RestaurantOrdersPageState extends State<RestaurantOrdersPage> {
 Future<void> _deleteOrder(int orderId) async {
   int rowsDeleted = await DatabaseHelper.instance.deleteOrder(orderId);
   if (rowsDeleted > 0) {
-    // Order deleted successfully, update the UI
-    setState(() {
+     setState(() {
       _orders = _orders.where((order) => order['id'] != orderId).toList();
     });
     ScaffoldMessenger.of(context).showSnackBar(
@@ -44,8 +43,7 @@ Future<void> _deleteOrder(int orderId) async {
     );
   }
 }  Future<void> _loadOrders() async {
-    // Get the logged-in user's ID from shared preferences or state management
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? userId = prefs.getInt('userId');
 
     if (userId != null) {
@@ -54,8 +52,7 @@ Future<void> _deleteOrder(int orderId) async {
         _orders = orders;
       });
     } else {
-      // Handle the case where the user is not logged in
-      print('User not logged in');
+       print('User not logged in');
     }
   }
 

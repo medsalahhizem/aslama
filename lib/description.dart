@@ -66,8 +66,7 @@ class DescriptionPage extends StatelessWidget {
           "Whether you're looking for a quiet spot to relax or a lively place to party, Tunisia's beaches have something to offer. From the ancient ruins of Carthage to the modern resorts of Hammamet, there's a beach for every mood and preference.",
           style: TextStyle(fontSize: 16),
         ),
-        // Add more content for beaches
-      ],
+       ],
     );
   }
 
@@ -103,13 +102,11 @@ class DescriptionPage extends StatelessWidget {
           'Explore the vibrant markets of Tunis, where you can find everything from fresh produce to exotic spices. Or, dine in one of the many renowned restaurants that have earned Tunisia a reputation for its culinary excellence.',
           style: TextStyle(fontSize: 16),
         ),
-        // Add more content for cuisine
-      ],
+       ],
     );
   }
 
-  // Add methods for other descriptions (_buildHikingDescription, _buildIceDescription, etc.)
-
+ 
   Widget _buildHikingDescription() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,8 +211,7 @@ class DescriptionPage extends StatelessWidget {
           ' Chenini is a unique stop on Tunisia s ksar trail, offering a glimpse into a bygone era and the traditional Berber way of life.  Don t miss this chance to wander through history!',
           style: TextStyle(fontSize: 16),
         ),
-        // Add more content for cuisine
-      ],
+       ],
     );
 
     return Column();
