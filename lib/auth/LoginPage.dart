@@ -22,6 +22,12 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Image.asset(
+              'assets/images/logo.png',
+              height: 100,
+              width: 100,
+            ),
+            SizedBox(height: 20),
             TextFormField(
               controller: _usernameController,
               decoration: const InputDecoration(

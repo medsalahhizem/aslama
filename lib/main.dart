@@ -83,13 +83,9 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: const Color.fromARGB(255, 0, 100, 182),
         toolbarHeight: 60,
         elevation: 20,
-        title: const Text(
-          "ASLAMA👋",
-          style: TextStyle(
-            fontFamily: 'italic',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
+        title: Image.asset(
+          'assets/logo.png', // Replace 'assets/logo.png' with the path to your logo image
+          height: 40, // Adjust the height as needed
         ),
         centerTitle: true,
         leading: Builder(
@@ -147,12 +143,6 @@ class _MainScreenState extends State<MainScreen> {
               title: const Text('Restaurant Orders'),
               onTap: () {
                 Navigator.pushNamed(context, '/OredersPage');
-              },
-            ),
-            ListTile(
-              title: const Text('Guides'),
-              onTap: () {
-                // Handle guide button tap
               },
             ),
             ListTile(
